@@ -3,22 +3,35 @@
 <head>
     <title>requestAnimationFrame</title>
     <style type="text/css">
-        #hello {
+        .wrap {
+            position: relative;
+        }
+        #hello, #hi {
             width: 600px;
-            height: 300px;
-            line-height: 300px;
+            height: 200px;
+            line-height: 200px;
             color: #fff;
             font-size: 30px;
             background-color: #f00;
             position: absolute;
             text-align: center;
         }
+
+        #hi {
+            top: 220px;
+        }
     </style>
 </head>
 <body>
-    <div id="hello">
-        测试 requestAnimationFrame
+    <div class="wrap">
+        <div id="hello">
+            测试 requestAnimationFrame
+        </div>
+        <div id="hi">
+            模拟 requestAnimationFrame
+        </div>
     </div>
+
     <script type="text/javascript" src="./index.js"></script>
 </body>
 </html>
