@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>使用 JavaScript Proxy 模拟单向数据绑定</title>
+</head>
+<body>
+    <input id='username' />
+    <div id='name'></div>
+
+    <script type="text/javascript">
+        const name = document.getElementById('name')
+        const username = document.getElementById('username')
+
+        const handler = {
+            get(target, prop) {
+                // console.log('prop:', prop)
+                if (prop === 'name') {
+                    return target.innerText
+                }
+                if (prop in target) {
+                    return target[prop]
+                }
+                throw new Error('not found!')
+            },
+            set(target, prop, value) {
+                if (prop === 'name') {
+                    target.innerText = value
+                } else {
+                    target[prop] = value
+                }
+                return true
+            },
+        }
+
+        const proxyName = new Proxy(name, handler)
+
+        username.onkeyup = e => {
+            proxyName.name = e.target.value
+        }
+    </script>
+</body>
+</html>
