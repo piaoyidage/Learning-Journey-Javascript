@@ -155,7 +155,9 @@ const cloneDeep = obj => {
     }
 
     for (const prop in obj) {
-        cloneObj[prop] = cloneDeep(obj[prop])
+        if (obj.hasOwnProperty(prop)) {
+            cloneObj[prop] = cloneDeep(obj[prop])
+        }
     }
 
     return cloneObj
@@ -195,5 +197,89 @@ console.log(obj1.e.name, obj2.e.name); // obj1 vs obj2
 
 ```
 
-**当然上面的实现还远远谈不上完美，还有很多地方需要去完善，例如对Map、Set、Symbol 等的支持。**
+**进一步对循环引用处理**
 
+```js
+const isType = (obj, type) => Object.prototype.toString.call(obj) === `[object ${type}]`
+
+const isArray = obj => isType(obj, 'Array')
+const isRegExp = obj => isType(obj, 'RegExp')
+const isDate = obj => isType(obj, 'Date')
+// isMap/isSet...
+
+const getFlags = re => {
+    let flags = ''
+    if (re.global) {
+        flags += 'g'
+    }
+    if (re.ignoreCase) {
+        flags += 'i'
+    }
+    if (re.multiline) {
+        flags += 'm'
+    }
+    return flags
+}
+
+const cloneDeep = obj => {
+    const objRefs = []
+    const _cloneDeep = obj => {
+        let cloneObj
+        // 非引用类型直接返回
+        if (typeof obj !== 'object') {
+            return obj
+        }
+
+        if (obj === null) {
+            return null
+        }
+
+        if (isArray(obj)) {
+            cloneObj = []
+        } else if (isRegExp(obj)) {
+            cloneObj = new RegExp(obj.source, getFlags(obj))
+        } else if (isDate(obj)) {
+            cloneObj = new Date(obj.getTime())
+        } else {
+            // 主动去设置原型
+            cloneObj = Object.create(Object.getPrototypeOf(obj))
+        }
+
+        if (objRefs.indexOf(obj) !== -1) {
+            return obj
+        }
+
+        objRefs.push(obj)
+
+        for (const prop in obj) {
+            if (obj.hasOwnProperty(prop)) {
+                cloneObj[prop] = _cloneDeep(obj[prop])
+            }
+        }
+
+        return cloneObj
+    }
+    
+    return _cloneDeep(obj)
+}
+
+const obj1 = {
+    name: 'zhangsan',
+}
+obj1.info = obj1
+
+const obj2 = cloneDeep(obj1)
+
+console.log(obj1, obj2);
+```
+
+
+**当然上面的实现还远远谈不上完美，还有很多地方需要去完善，例如对Map、Set 等的支持**
+
+**生产环境推荐使用 lodash 的 cloneDeep**
+
+
+## 参考
+
+1. [面试官:请你实现一个深克隆](https://juejin.im/post/5abb55ee6fb9a028e33b7e0a)
+2. [lodash](https://github.com/lodash/lodash)
