@@ -5,3 +5,6 @@
 👉 [2.Proxy](https://github.com/piaoyidage/Learning-Journey-Javascript/tree/master/demo-02)
 
 👉 [3.深克隆](https://github.com/piaoyidage/Learning-Journey-Javascript/tree/master/demo-03)
+
+👉 [4.Event 发布订阅简单实现](https://github.com/piaoyidage/Learning-Journey-Javascript/tree/master/demo-04)
+
