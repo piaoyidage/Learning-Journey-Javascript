@@ -8,3 +8,5 @@
 
 👉 [4.Event 发布订阅简单实现](https://github.com/piaoyidage/Learning-Journey-Javascript/tree/master/demo-04)
 
+👉 [5.图片懒加载](https://github.com/piaoyidage/Learning-Journey-Javascript/tree/master/demo-05)
+

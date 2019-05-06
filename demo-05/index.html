@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lazy Load</title>
+    <style type="text/css">
+        .wrap {
+            margin: 0 auto;
+            width: 600px;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+        <img src="./images/default.png" data-src='./images/1.png' alt="">
+        <img src="./images/default.png" data-src='./images/2.png' alt="">
+        <img src="./images/default.png" data-src='./images/3.png' alt="">
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+
+    <script type="text/javascript">
+        
+        const images = document.querySelectorAll('img')
+
+        function lazyLoad() {
+            const clientHeight = document.documentElement.clientHeight
+            const scrollTop = document.documentElement.scrollTop
+
+            console.log('clientHeight:', clientHeight, ', scrollTop:', scrollTop)
+
+            for (let i = 0, len = images.length; i < len; i++) {
+                const item = images[i]
+                const src = item.getAttribute('src')
+                const { src: dataSrc } = item.dataset
+
+                console.log('offsetTop:', item.offsetTop)
+
+                // 注意此处的比较
+                if (src.indexOf('default.png') !== -1 && item.offsetTop < clientHeight + scrollTop) {
+                    item.setAttribute('src', dataSrc)
+                }
+            }
+        }
+
+        // window.onscroll = lazyLoad
+        // window.onscroll = () => setTimeout(lazyLoad, 1000)
+        window.onscroll = _.debounce(lazyLoad, 1000)
+
+        lazyLoad()
+
+    </script>
+</body>
+</html>
